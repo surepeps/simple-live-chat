@@ -14,7 +14,7 @@
             <div class="card-body" >
                 <div class="details">
                     <p class="mx-auto text-center con-text">
-                        <i class="" id="typing"> </i>
+                        <i class="" id="typing">Conversation with <b  id='reciever-name'> <?= $sc['user_msg']['name'] ?> </b></i>
                     </p>
                 </div>
                 <div id="chats" class="user-body my-5 mt-2">
@@ -48,6 +48,10 @@
     let msgButton = $("#send-msg");
     let typingStatus = $("#typing");
 
+    // Typing 
+    let typingTimer;    
+    let doneTypingInterval = 3000;  
+
     // sender data
     let my_user_id = "<?= $sc['user']['user_id'] ?>";
 
@@ -67,17 +71,17 @@
             };
 
             $.ajax({
-            url: Sh_Ajax_Requests_File() + '?f=chat&s=sendmessage',
-            type: "POST",
-            data: postData,
-            dataType: "json",
-            encode: true,
-            success: function(data) {
-                myMessage(msgInput.val());
-                msgForm[0].reset();
-            }
+                url: Sh_Ajax_Requests_File() + '?f=chat&s=sendmessage',
+                type: "POST",
+                data: postData,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                    myMessage(msgInput.val());
+                    msgForm[0].reset();
+                }
 
-        })
+            })
             
         }else{
             alert("Please provide data");
@@ -124,7 +128,6 @@
             encode: true,
             success: function(data) {
                 liveMessageDisplay(data);
-                console.log(data);
             }
 
         });
@@ -183,20 +186,88 @@
        
     }
 
-   setInterval(getAllMessages, 1000);
+   setInterval( () => {
+    getAllMessages();
+    getWhoIsTyping();
+   }, 1000);
 
-    //check if user is typing 
-    let checkUserTyping = () => {
 
-        msgInput.keypress(() => {
-            typingStatus.html("<?= $sc['user_msg']['name'] ?> is Typing....");
-        });
 
-        typingStatus.html("Conversation with <b  id='reciever-name'> <?= $sc['user_msg']['name'] ?> </b>");
 
-    }
 
-    checkUserTyping();
-        
+// 
+// 
+// TYPING CHECKER
+// 
+// 
+//on keyup, start the countdown
+msgInput.on('focus', function () {
+    saveTypingStatus(1,my_user_id,recierverId);
+});
+
+msgInput.on('blur', function () {
+    saveTypingStatus(0,my_user_id,recierverId);
+});
+
+let saveTypingStatus = (type,from_id,to_id) => {
+
+    let postData = {
+        from_id: from_id,
+        to_id: to_id,
+        is_type: type
+    };
+
+    $.ajax({
+        url: Sh_Ajax_Requests_File() + '?f=chat&s=typingstatus',
+        type: "POST",
+        data: postData,
+        dataType: "json",
+        encode: true,
+        success: function(data) {
+            // getWhoIsTyping(data);
+        }
+
+    })
+}
+
+
+let getWhoIsTyping = () => {
+
+    let postData = {
+        from_id: my_user_id,
+        to_id: recierverId,
+    };
+
+    $.ajax({
+        url: Sh_Ajax_Requests_File() + '?f=chat&s=gettypingstatus',
+        type: "POST",
+        data: postData,
+        dataType: "json",
+        encode: true,
+        success: function(data) {
+            
+            let u_t_id = data.from_id;
+            let r_t_id = data.too_id;
+
+            if (data.typing_status == 1) {
+                if (u_t_id == my_user_id) {
+                    typingStatus.html("You are Typing....");
+                }else{
+                    typingStatus.html("<?= $sc['user_msg']['name'] ?> is Typing....");
+                }  
+            }else{
+                typingStatus.html("Conversation with <b  id='reciever-name'> <?= $sc['user_msg']['name'] ?> </b>");
+            }
+
+        }
+
+    })
+
+    
+    
+
+
+}
+
 
 </script>

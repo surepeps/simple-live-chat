@@ -187,6 +187,69 @@ function Sh_SaveMessage($Fdata){
 }
 
 
+function Sh_updateTypingStatus($type,$Fdata){
+    global $sqlConnect;
+
+    if (empty($Fdata)) {
+        return false;
+    }
+
+    $from_id = $Fdata['from_id'];
+    $to_id = $Fdata['to_id'];
+
+    if($type == 1){
+        // check if it is existing 
+        if(!getypingStatus($from_id,$to_id)){
+
+            $fields  = '`' . implode('`,`', array_keys($Fdata)) . '`';
+            $data    = '\'' . implode('\', \'', $Fdata) . '\'';
+            $query   = mysqli_query($sqlConnect, "INSERT INTO " . T_TYPING_STATUS . " ({$fields}) VALUES ({$data})");
+
+        }
+        
+    }else{
+    
+        $query = mysqli_query($sqlConnect, "DELETE FROM " . T_TYPING_STATUS . " WHERE `from_id` = $from_id AND `to_id` = $to_id ");
+    }
+
+    return true;
+
+}
+
+function Sh_getWhoisTyping($from_id, $to_id){
+    global $sqlConnect;
+
+    if (empty($from_id)) {
+        return false;
+    }
+
+    if (empty($to_id)) {
+        return false;
+    }
+
+    $query = "SELECT * FROM " . T_TYPING_STATUS . "  WHERE ( (`from_id` = $from_id AND `to_id` = $to_id ) OR (`from_id` = $to_id AND `to_id` = $from_id) ) ORDER BY `id` DESC LIMIT 1 ";
+
+    $result = mysqli_query($sqlConnect, $query);
+    $fetched_data  = mysqli_fetch_assoc($result);
+
+    return $fetched_data;
+}
+
+function getypingStatus($from_id, $to_id){
+    global $sqlConnect;
+
+    if (empty($from_id)) {
+        return false;
+    }
+
+    if (empty($to_id)) {
+        return false;
+    }
+
+    $query    = mysqli_query($sqlConnect, "SELECT COUNT(`id`) FROM " . T_TYPING_STATUS . "  WHERE `from_id` = $from_id AND `to_id` = $to_id ");
+    return (Sh_Sql_Result($query, 0) == 1) ? true : false;
+}
+
 function Sh_Login($username, $password) {
     global $sqlConnect;
     if (empty($username) || empty($password)) {

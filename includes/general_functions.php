@@ -90,8 +90,8 @@ function Sh_GetUserFromSessionID($session_id, $platform = 'web') {
 }
 
 function Sh_Link($string) {
-    global $site_url;
-    return $site_url . '/' . $string;
+    global $sc, $site_url;
+    return $sc['config']['site_url'] . '/' . $string;
 }
 
 function Sh_Sql_Result($res, $row = 0, $col = 0) {

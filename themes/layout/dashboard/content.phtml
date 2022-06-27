@@ -90,30 +90,6 @@
             
         }
 
-        // userData.userdata.forEach(user => {
-        //     output += `
-        //     <a href="<?= Sh_Link('') ?>${user.username}" class="myDislink" style="color: black; " >
-        //         <div class="card mb-2">
-        //             <div class="card-body">
-        //                 <div class="d-flex">
-        //                     <div class="msg-avartar float-start">
-        //                         <img src="${user.avartar}" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
-        //                     </div>
-
-        //                     <div class="float-start ms-2">
-        //                         <h6 class="">${user.name}</h6>
-        //                         <h6>Hello..</h6>
-        //                     </div>
-
-        //                     <div class="float-end ms-auto mt-3">
-        //                         <i class="fa fa-circle-dot text-success"></i>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </a>    
-        //     `;
-        // }); 
 
         return output
     }
@@ -134,7 +110,7 @@
             encode: true,
             success: function(data) {
 
-                console.log(data);
+                // console.log(data);
 
                 allUsers.push(data);
 

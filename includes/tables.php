@@ -12,4 +12,5 @@ define('T_CONFIG', 'Sh_Config');
 define('T_TESTER', 'Texster');
 define('T_APP_SESSIONS', 'sh_appssessions');
 define('T_MESSAGES', 'sc_messages');
+define('T_TYPING_STATUS', 'sc_typing');
 ?>
