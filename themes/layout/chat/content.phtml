@@ -48,6 +48,9 @@
     let msgButton = $("#send-msg");
     let typingStatus = $("#typing");
 
+    // Date and time 
+    
+
     // Typing 
     let typingTimer;    
     let doneTypingInterval = 3000;  
@@ -79,6 +82,7 @@
                 success: function(data) {
                     myMessage(msgInput.val());
                     msgForm[0].reset();
+                    msgInput.blur();
                 }
 
             })
@@ -88,6 +92,42 @@
         }
 
     })
+
+    // Time converter
+    function timeDifference(current, previous) {
+        
+        var msPerMinute = 60 * 1000;
+        var msPerHour = msPerMinute * 60;
+        var msPerDay = msPerHour * 24;
+        var msPerMonth = msPerDay * 30;
+        var msPerYear = msPerDay * 365;
+        
+        var elapsed = current - previous;
+        
+        if (elapsed < msPerMinute) {
+            return Math.round(elapsed/1000) + ' seconds ago';   
+        }
+        
+        else if (elapsed < msPerHour) {
+            return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+        }
+        
+        else if (elapsed < msPerDay ) {
+            return Math.round(elapsed/msPerHour ) + ' hours ago';   
+        }
+
+        else if (elapsed < msPerMonth) {
+            return Math.round(elapsed/msPerDay) + ' days ago';   
+        }
+        
+        else if (elapsed < msPerYear) {
+            return Math.round(elapsed/msPerMonth) + ' months ago';   
+        }
+        
+        else {
+            return Math.round(elapsed/msPerYear ) + ' years ago';   
+        }
+    }
 
     let myMessage = (chat) => {
 
@@ -138,7 +178,11 @@
 
         let allChatMessages = "";
 
+        let currentTime = new Date();
+
         msgs.forEach(msgData => {
+
+            let timeMsg = timeDifference(currentTime, new Date(msgData.date_created));
 
             if (msgData.from_id === recierverId) {
 
@@ -154,7 +198,7 @@
                                 </div>    
                             </div>
                             <div class="msg-time w-100 ms-5 px-3 float-start ">
-                                <p class="time float-start"><i>1 min ago</i></p>
+                                <p class="time float-start"><i>${timeMsg}</i></p>
                             </div>
                         </div>`
 
@@ -172,7 +216,7 @@
                                 </div>
                             </div>
                             <div class="msg-in-time w-100 me-5 px-3 float-end">
-                                <p class="time float-end"><i>1 min ago</i></p>
+                                <p class="time float-end"><i>${timeMsg}</i></p>
                             </div>
                         </div>`
 
@@ -190,8 +234,6 @@
     getAllMessages();
     getWhoIsTyping();
    }, 1000);
-
-
 
 
 
@@ -224,7 +266,7 @@ let saveTypingStatus = (type,from_id,to_id) => {
         dataType: "json",
         encode: true,
         success: function(data) {
-            // getWhoIsTyping(data);
+
         }
 
     })
@@ -263,11 +305,10 @@ let getWhoIsTyping = () => {
 
     })
 
-    
-    
-
-
 }
+
+
+
 
 
 </script>
