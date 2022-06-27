@@ -1,0 +1,30 @@
+RewriteEngine On
+RewriteCond %{HTTPS} on
+
+RewriteCond %{REMOTE_ADDR} !=127.0.0.1
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+##RewriteRule ^home(.*)$ index.php?link1=dashboard [QSA,L]
+RewriteRule ^$ index.php?link1=login [QSA]
+RewriteRule ^dashboard$ index.php?link1=dashboard [QSA]
+RewriteRule ^logout(/?|)$ index.php?link1=logout [QSA]
+RewriteRule ^register(/?|)$ index.php?link1=register [QSA,L]
+RewriteRule ^login(/?|)$ index.php?link1=login [QSA,L]
+
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^@([^\/]+)(\/|)$  index.php?link1=chat&u=$1 [QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([A-Za-z0-9_]+)/([^\/]+)(\/|)$  index.php?link1=timeline&u=$1&type=$2 [QSA]
+RewriteRule ^password-reset/([^\/]+)(\/|)$  index.php?link1=welcome&link2=password_reset&user_id=$1 [NC,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\/]+)(\/|)$  index.php?link1=chat&u=$1 [QSA]

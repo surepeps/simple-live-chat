@@ -1,0 +1,202 @@
+
+<div class="card shadow border " style="" >
+    <div class="row g-0">
+
+        <div class="col-md-12 col-xl-12 col-xxl-12 col-lg-12 col-sm-12">
+            <div class="card-header">
+                <div class="d-flex">
+
+                    <?= Sh_LoadPage('header/content') ?>
+
+                </div>
+
+            </div>
+            <div class="card-body" >
+                <div class="details">
+                    <p class="mx-auto text-center con-text">
+                        <i class="" id="typing"> </i>
+                    </p>
+                </div>
+                <div id="chats" class="user-body my-5 mt-2">
+
+               
+
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <form id="msg-from" class="row mt-1 mb-3 g-3 needs-validation" novalidate>
+                    <div class="col-md-11 col-lg-11 col-sm-11">
+                        <input type="email" class="form-control msg-input" placeholder="Send Message" id="msg-input" value="" required>
+                    </div>
+                    <div class="col-sm-1 col-md-1 col-lg-1 d-grid">
+                        <button id="send-msg" class="btn btn-primary mybtn">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let msgInput = $("#msg-input");
+    let chatsDisplay = $("#chats");
+    let msgForm = $("#msg-from");
+    let msgButton = $("#send-msg");
+    let typingStatus = $("#typing");
+
+    // sender data
+    let my_user_id = "<?= $sc['user']['user_id'] ?>";
+
+    // reciever data 
+    let recierverId = "<?= $sc['user_msg']['user_id'] ?>";
+
+    msgButton.on("click", (e) => {
+        e.preventDefault();
+
+        // check if the input form is empty or not
+        if( msgInput.val() ){
+
+            let postData = {
+                reciever_id: recierverId,
+                sender_id: my_user_id,
+                message: msgInput.val()
+            };
+
+            $.ajax({
+            url: Sh_Ajax_Requests_File() + '?f=chat&s=sendmessage',
+            type: "POST",
+            data: postData,
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                myMessage(msgInput.val());
+                msgForm[0].reset();
+            }
+
+        })
+            
+        }else{
+            alert("Please provide data");
+        }
+
+    })
+
+    let myMessage = (chat) => {
+
+        let msgOutput = "";
+
+        msgOutput = `
+                <div class="msg-in w-100 mb-2 float-end">
+                    <div class="msg-avartar float-end">
+                        <img src="<?= $sc['user']['avartar'] ?>" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
+                    </div>
+                    <div class="msg-in-body px-3 float-end me-2">
+                        <div class="ms-1">
+                            <p class="name"><?= $sc['user']['name'] ?></p>
+                            <p class="msg">${chat}</p>
+                        </div>
+                    </div>
+                    <div class="msg-in-time w-100 me-5 px-3 float-end">
+                        <p class="time float-end"><i>1 sec ago</i></p>
+                    </div>
+                </div>
+        `
+        chatsDisplay.append(msgOutput);
+
+    }
+
+    let getAllMessages = () => {
+
+        let postData = {
+            reciever_id: recierverId,
+            sender_id: my_user_id
+        };
+
+        $.ajax({
+            url: Sh_Ajax_Requests_File() + '?f=chat&s=getallmessages',
+            type: "POST",
+            data: postData,
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                liveMessageDisplay(data);
+                console.log(data);
+            }
+
+        });
+
+    }
+
+    let liveMessageDisplay = (msgs) => {
+
+        let allChatMessages = "";
+
+        msgs.forEach(msgData => {
+
+            if (msgData.from_id === recierverId) {
+
+                allChatMessages += `
+                        <div class="msg-out w-100 mb-3 float-start">
+                            <div class="msg-avartar float-start">
+                                <img src="<?= $sc['user_msg']['avartar'] ?>" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
+                            </div>
+                            <div class="msg-body px-3 float-start ms-2">
+                                <div class="ms-1">
+                                    <p class="name"><?= $sc['user_msg']['name'] ?></p>
+                                    <p class="msg">${msgData.message}</p>
+                                </div>    
+                            </div>
+                            <div class="msg-time w-100 ms-5 px-3 float-start ">
+                                <p class="time float-start"><i>1 min ago</i></p>
+                            </div>
+                        </div>`
+
+            }else{
+
+                allChatMessages += `
+                        <div class="msg-in w-100 mb-2 float-end">
+                            <div class="msg-avartar float-end">
+                                <img src="<?= $sc['user']['avartar'] ?>" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
+                            </div>
+                            <div class="msg-in-body px-3 float-end me-2">
+                                <div class="ms-1">
+                                    <p class="name"><?= $sc['user']['name'] ?></p>
+                                    <p class="msg">${msgData.message}</p>
+                                </div>
+                            </div>
+                            <div class="msg-in-time w-100 me-5 px-3 float-end">
+                                <p class="time float-end"><i>1 min ago</i></p>
+                            </div>
+                        </div>`
+
+            }
+
+
+        });
+
+
+        chatsDisplay.html(allChatMessages);
+       
+    }
+
+   setInterval(getAllMessages, 1000);
+
+    //check if user is typing 
+    let checkUserTyping = () => {
+
+        msgInput.keypress(() => {
+            typingStatus.html("<?= $sc['user_msg']['name'] ?> is Typing....");
+        });
+
+        typingStatus.html("Conversation with <b  id='reciever-name'> <?= $sc['user_msg']['name'] ?> </b>");
+
+    }
+
+    checkUserTyping();
+        
+
+</script>

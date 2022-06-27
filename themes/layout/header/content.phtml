@@ -1,0 +1,15 @@
+<div class="avartar float-start">
+    <img src="<?= $sc['user']['avartar'] ?>" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
+</div>
+<div class="float-start mt-1 ms-2">
+    <a href="<?php echo Sh_Link('dashboard'); ?>" class="myDislink">
+        <h5 class="fs-5"><?= $sc['user']['name'] ?></h5>
+    </a>
+    <h6><i class="fa fa-circle-dot text-success"></i> Active</h6>
+</div>
+
+<div class="float-end ms-auto mt-4">
+    <a href="<?php echo Sh_Link('logout'); ?>">
+        <i class="fa fa-right-from-bracket fs-4"></i>
+    </a>
+</div>

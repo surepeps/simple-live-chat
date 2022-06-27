@@ -1,0 +1,51 @@
+<div class="card shadow border">
+    <div class="row g-0">
+        <div class="col-lg-7 col-xl-7 col-xxl-7 d-none d-lg-block d-xl-block d-xxl-block">
+            <img src="assets/images/login-bg.jpg" style="height: 100%;" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-12 col-xl-5 col-xxl-5 col-lg-5 col-sm-12">
+            <div class="card-body d-flex flex-column align-items-center">
+                <h3 class="card-title">
+                    <a href="#" class="mylogo">Sure<label>Chatter</label></a>
+                    <hr class="bg-danger border-2 border-top border-danger w-50 mx-auto">
+                </h3>
+                <div class="error" id="error"> </div>
+                <form id="login-form" class="row g-3 mt-2 needs-validation" novalidate>
+                    <div class="col-12">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" id="validationCustom01" value="" required>
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="***********" id="validationCustom01" value="" required>
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                            Kepp me logged in
+                        </label>
+                        <div class="invalid-feedback">
+                            You must agree before submitting.
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-grid">
+                        <button class="btn btn-primary mybtn" type="submit" id="login-btn">Login</button>
+                    </div>
+                    <div class="col-12 text-center">
+                        <label class="form-check-label" for="invalidCheck">
+                            Don't have an account yet?  <a href="register" class="myDislink">Register Now</a>
+                        </label>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

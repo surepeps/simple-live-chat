@@ -1,0 +1,61 @@
+<div class="card shadow border">
+    <div class="row g-0">
+        <div class="col-lg-7 col-xl-7 col-xxl-7 d-none d-lg-block d-xl-block d-xxl-block">
+            <img src="assets/images/login-bg.jpg" style="height: 100%;" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-12 col-xl-5 col-xxl-5 col-lg-5 col-sm-12">
+            <div class="card-body d-flex flex-column align-items-center">
+                <h3 class="card-title">
+                    <a href="#" class="mylogo">Sure<label>Chatter</label></a>
+                    <hr class="bg-danger border-2 border-top border-danger w-50 mx-auto">
+                </h3>
+                <div class="error" id="error"> </div>
+                <form id="reg-form" class="row g-3 mt-2 needs-validation" novalidate enctype="multipart/form-data">
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name" value="" required>
+                        <input autocomplete="off" autofocus required type="hidden" value="<?= "user_".Sh_GenerateKey(4, 6, false, false, true, false) ?>" class="form-control" name="username" id="user_n">
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name" value="" required>
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <input type="email" class="form-control" placeholder="Email" name="email"  id="email" value="" required>
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="***********" name="password" id="password" value="" required>
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <input type="file" class="form-control" placeholder="select image" name="profile_img" id="profile_img" value="" required>
+                        <div class="valid-feedback">
+                        Looks good!
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-grid">
+                        <button id="reg-btn" class="btn btn-primary mybtn" type="submit">Register</button>
+                    </div>
+                    <div class="col-12 text-center">
+                        <label class="form-check-label" for="invalidCheck">
+                            already have an account?  <a href="login" class="myDislink">Login</a>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,190 @@
+<div class="card shadow border " style="max-height: 600px;" >
+    <div class="row g-0">
+
+        <div class="col-md-12 col-xl-12 col-xxl-12 col-lg-12 col-sm-12">
+            <div class="card-header">
+                <div class="d-flex">
+                    <?= Sh_LoadPage('header/content') ?>
+                </div>
+
+            </div>
+            <div class="card-body"  >
+
+                <form class="row mt-1 mb-3 g-3 needs-validation" novalidate>
+                    <div class="col-md-11 col-lg-11 col-sm-11">
+                        <input type="email" class="form-control" placeholder="Search for user" id="search-user" value="" required>
+                    </div>
+                    <div class="col-sm-1 col-md-1 col-lg-1 d-grid">
+                        <button class="btn btn-primary mybtn">
+                            <i class="fa fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <div id="users-data" class="user-body mt-2">
+
+                    
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    // let displayUsers = document.getElementById("users-data");
+    let searchInput = document.getElementById("search-user");
+
+    let displayUsers = $("#users-data");
+    
+    let fetUsersApi = "";
+    let myUserID = "<?= $sc['user']['user_id'] ?>";
+
+    let allUsers = new Array();
+    
+    // replicate user data
+    let replicateUsers = (userData) => {
+
+        let output = "";
+        let msgD;
+        let process;
+        
+        for (let u = 0; u < userData.length; u++) {
+
+            if(userData[u].latest_message === null){
+                msgD = "";
+                process = "";
+            }else{
+                if (userData[u].latest_message.from_id === myUserID) {
+                    process = "You: ";
+                }else{
+                    process = "";
+                }
+                msgD = userData[u].latest_message.message
+            }
+        
+        output += `
+            <a href="<?= Sh_Link('') ?>${userData[u].userdata.username}" class="myDislink" style="color: black; " >
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="msg-avartar float-start">
+                                <img src="${userData[u].userdata.avartar}" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
+                            </div>
+
+                            <div class="float-start ms-2">
+                                <h6 class="">${userData[u].userdata.name}</h6>
+                                <p><b>${process}</b>  ${msgD}</p>
+                            </div>
+
+                            <div class="float-end ms-auto mt-3">
+                                <i class="fa fa-circle-dot text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>`;
+
+            
+        }
+
+        // userData.userdata.forEach(user => {
+        //     output += `
+        //     <a href="<?= Sh_Link('') ?>${user.username}" class="myDislink" style="color: black; " >
+        //         <div class="card mb-2">
+        //             <div class="card-body">
+        //                 <div class="d-flex">
+        //                     <div class="msg-avartar float-start">
+        //                         <img src="${user.avartar}" class="img-fluid img-thumbnail rounde-5 avartar-img" alt="" srcset="">
+        //                     </div>
+
+        //                     <div class="float-start ms-2">
+        //                         <h6 class="">${user.name}</h6>
+        //                         <h6>Hello..</h6>
+        //                     </div>
+
+        //                     <div class="float-end ms-auto mt-3">
+        //                         <i class="fa fa-circle-dot text-success"></i>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </a>    
+        //     `;
+        // }); 
+
+        return output
+    }
+
+    // get loggedin user for chatting
+    const getLoggedInUsers = () => {
+        const getData = {
+            myuserId: myUserID
+        }
+
+        let resd = "";
+
+        $.ajax({
+            url: Sh_Ajax_Requests_File() + '?f=fetchusers',
+            type: "POST",
+            data: getData,
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+
+                console.log(data);
+
+                allUsers.push(data);
+
+                if (data.status == 400) {
+                    
+                    resd = noLoggedInUser();
+                    
+                }else{
+
+                    resd = replicateUsers(data)
+
+                }
+                displayUsers.html(resd);
+            },
+            async: false 
+
+        })
+
+    }
+
+    searchInput.addEventListener('keyup', () => {
+
+        keyword = searchInput.value.toLowerCase();
+        let filtered_users = allUsers[0].filter(function(userL){
+            userL = userL.username.toString().toLowerCase();
+            return userL.indexOf(keyword) > -1;
+        });
+
+        resd = replicateUsers(filtered_users);
+
+        displayUsers.html(resd);
+    })
+
+    // get loggedin Users every 5 seconds 
+    $(document).ready(function() {
+        setInterval(function() {getLoggedInUsers(); }, 1000);
+    });
+
+    // getLoggedInUsers();
+
+    let noLoggedInUser = () => {
+        let output = "";
+
+       return output = `
+            <div class="col-lg-12 mx-auto mt-3">
+                <p class="mt-2 text-center text-warning"><i class="fa fa-close" ></i> Sorry No User To Chat with </p>
+            </div>
+        `;
+    }
+    
+   
+
+</script>
