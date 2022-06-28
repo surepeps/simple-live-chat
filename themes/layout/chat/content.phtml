@@ -172,6 +172,8 @@
 
         });
 
+        setTimeout( getAllMessages, 1000 );
+
     }
 
     let liveMessageDisplay = (msgs) => {
@@ -230,10 +232,10 @@
        
     }
 
-   setInterval( () => {
-    getAllMessages();
-    getWhoIsTyping();
-   }, 1000);
+    setTimeout( () => {
+        getAllMessages();
+        getWhoIsTyping();
+    }, 1000 );
 
 
 
@@ -304,6 +306,8 @@ let getWhoIsTyping = () => {
         }
 
     })
+
+    setTimeout( getWhoIsTyping, 1000 );
 
 }
 

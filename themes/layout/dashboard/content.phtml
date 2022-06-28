@@ -129,6 +129,8 @@
 
         })
 
+        setTimeout( getLoggedInUsers, 1000 );
+
     }
 
     searchInput.addEventListener('keyup', () => {
@@ -145,9 +147,10 @@
     })
 
     // get loggedin Users every 5 seconds 
-    $(document).ready(function() {
-        setInterval(function() {getLoggedInUsers(); }, 1000);
-    });
+    setTimeout( getLoggedInUsers, 1000 );
+    // $(document).ready(function() {
+    //     setInterval(function() {getLoggedInUsers(); }, 1000);
+    // });
 
     // getLoggedInUsers();
 
