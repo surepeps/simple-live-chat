@@ -28,6 +28,11 @@ body{
 
 .myDislink{
     text-decoration: none;
+    color: #945331;
+}
+
+.myDislink:hover{
+    color: #a24567;
 }
 
 .avartar{

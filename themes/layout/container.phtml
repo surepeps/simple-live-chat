@@ -33,5 +33,49 @@
         </div>
     </body>
 
-    
+    <!-- Settings modal -->
+    <div class="modal fade" id="settingsmodal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">
+                    <i class="fa fa-sliders fs-5"></i>
+                    Settings
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Show a second modal and hide this one with the button below.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script>  
+    $(document).ready(function() {
+        var aSound = document.createElement('audio');
+         aSound.setAttribute('src', 'assets/audio/bell.wav');
+         aSound.play(); 
+    })
+
+
+    // var isactive = false;
+
+    // function playSound(){
+    //     if (isactive) return;
+    //     playWav...;
+    // }
+
+    // onNotificaitonComes = playSound;
+
+    // $(window).focus(function(){
+    //     isactive = true;
+    // }).blur(function(){
+    //     isactive = false;
+    // });
+     
+ </script>
 </html>
