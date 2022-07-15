@@ -14,37 +14,27 @@
                     <div class="col-12">
                         <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name" value="" required>
                         <input autocomplete="off" autofocus required type="hidden" value="<?= "user_".Sh_GenerateKey(4, 6, false, false, true, false) ?>" class="form-control" name="username" id="user_n">
-                        <div class="valid-feedback">
-                        Looks good!
-                        </div>
+
                     </div>
 
                     <div class="col-12">
                         <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name" value="" required>
-                        <div class="valid-feedback">
-                        Looks good!
-                        </div>
+
                     </div>
 
                     <div class="col-12">
                         <input type="email" class="form-control" placeholder="Email" name="email"  id="email" value="" required>
-                        <div class="valid-feedback">
-                        Looks good!
-                        </div>
+
                     </div>
 
                     <div class="col-12">
-                        <input type="text" class="form-control" placeholder="***********" name="password" id="password" value="" required>
-                        <div class="valid-feedback">
-                        Looks good!
-                        </div>
+                        <input type="password" class="form-control" placeholder="***********" name="password" id="password" value="" required>
+                        
                     </div>
 
                     <div class="col-12">
                         <input type="file" class="form-control" placeholder="select image" name="profile_img" id="profile_img" value="" required>
-                        <div class="valid-feedback">
-                        Looks good!
-                        </div>
+                        
                     </div>
                     <div class="col-md-12 d-grid">
                         <button id="reg-btn" class="btn btn-primary mybtn" type="submit">Register</button>
